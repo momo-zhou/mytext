@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .box {
+            width: 100%;
+            height: 50px;
+            background-color: red;
+            position: relative;
+        }
+
+        h1 {
+            margin: auto;
+            color: #fff;
+            font-size: 25px;
+            line-height: 50px;
+            text-align: center;
+            letter-spacing: 30px;
+        }
+     .update{
+         width: 30px;
+         height: 50px;
+         position: absolute;
+         right:600px;
+         top: 0px;
+         font-size:30px ;
+         color: #8b2585;
+         cursor: pointer;
+     }
+        #update {
+            width: 70px;
+            height: 48px;
+            border: 1px solid red;
+        }
+
+        button {
+            width: 100px;
+            height: 30px;
+        }
+        ul{
+            list-style:none;
+            width: 100%;
+
+        }
+       h4{
+           color:blue;
+       }
+     a{
+         text-decoration:none;
+     }
+     a:hover{
+         color: #4bff65;
+     }
+      h4{
+          width: 600px;
+         margin: 10px auto;
+      }
+      span{
+          padding-left: 30px;
+          color: #760e24;
+      }
+        p{
+            width: 600px;
+            margin:5px auto;
+
+        }
+        .img{
+            width: 970px;
+            height: 250px;
+            padding-left: 5px;
+        }
+        hr{
+            width: 88%;
+            font-size: 12px;
+            margin: 10px auto;
+            color: rgba(190, 190, 190, 0.42);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="box">
+        <h1>新闻头条</h1>
+       <span class="update"><img src="2.jpg" id="update"/></span>
+    <!--<button>点击刷新</button>-->
+</div>
+ <div class="con"></div>
+</body>
+<script src="../jquery/jquery.js"></script>
+<script>
+    $("#update").on("click", function () {
+        $.ajax({
+            url:'http://toutiao-ali.juheapi.com/toutiao/index?type=',
+            headers:{
+                Authorization:"APPCODE 7d8b980723654719826b25a4732f2bb3"
+            },
+            type:'get',
+            dataType:'json',
+            success:function(data){
+                var str ="";
+//                  str+='<p>最新资讯</p>';
+                for(var i =0;i<data.result.data.length;i++){
+                       str +='<h4><a href="'+data.result.data[i].url+'">'+data.result.data[i].title+'</a></h4>';
+                       str+='<p>'+data.result.data[i].author_name+'<span>'+data.result.data[i].date+'</span></p>';
+                       str+='<p class="img"><img src="'+data.result.data[i].thumbnail_pic_s+'" alt=""/><img src="'+data.result.data[i].thumbnail_pic_s02+'" alt=""/><img src="'+data.result.data[i].thumbnail_pic_s03+'" alt=""/></p>';
+                      str+='<hr>';
+                    $(".con").html(str);
+                }
+
+            },
+            error:function(){
+                alert("请求失败");
+            }
+        })
+    })
+
+</script>
+</html>
